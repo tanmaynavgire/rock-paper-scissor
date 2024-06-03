@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock,Paper,Scissors</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <h1
+      class="text-center text-6xl bg-purple-500 text-white font-bold italic font-sans"
+      style="line-height: 6rem"
+    >
+      Rock,Paper,Scissors <span class="text-black">by Tanmay N</span>
+    </h1>
+    <div class="bg-[#]">
+      <div class="ml-32 choices flex flex-row justify-center items-center h-32">
+        <div id="rock" class="choice hover:cursor-pointer hover:opacity-70">
+          <div class="h-12 w-64 text-8xl">✊</div>
+        </div>
+        <div id="paper" class="choice hover:cursor-pointer hover:opacity-70">
+          <div class="h-12 w-64 text-8xl">🖐</div>
+        </div>
+        <div id="Scissors" class="choice hover:cursor-pointer hover:opacity-70">
+          <div class="h-12 w-64 text-8xl">✌</div>
+        </div>
+      </div>
+      <div
+        class="scoreboard flex flex-row mt-24 gap-28 justify-center items-center"
+      >
+        <div class="score gap-4 flex flex-col">
+          <p class="text-4xl">You</p>
+          <p id="user" class="text-6xl">0</p>
+        </div>
+        <div class="score gap-4 flex flex-col">
+          <p class="text-4xl">Computer</p>
+          <p id="comp" class="text-6xl">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <div
+        class="msg text-center bg-black mt-7 mr-12 inline-block text-white"
+        style="border-radius: 10px"
+      >
+        <div class="play text-5xl/relaxed italic p-5">PLay Your Move</div>
+      </div>
+    </div>
+    <div class="reset text-center mr-8 mt-7">
+      <button
+        class="p-4 space-x-10 w-36 text-4xl text-white bg-zinc-900 hover:bg-black"
+        style="border-radius: 10px"
+        onclick="location.reload()"
+      >
+        Reset
+      </button>
+    </div>
+    <script>
+      let userscore = 0;
+      let compscore = 0;
+      let user = document.querySelector("#user");
+      let cmpscore = document.querySelector("#comp");
+
+      let msg = document.querySelector(".play");
+
+      const choices = document.querySelectorAll(".choice");
+      const draw = () => {
+        console.log("draw");
+        msg.innerText = "DRAW";
+        msg.style.backgroundColor = "yellow";
+        msg.style.color = "black";
+      };
+      const showwin = (userwin, userChoice, compChoice) => {
+        if (userwin) {
+          userscore++;
+          console.log("u won");
+          msg.innerText = `You Won. Your ${userChoice} beats ${compChoice}`;
+          msg.style.backgroundColor = "green";
+          user.innerText = userscore;
+
+          //   msg.innerText('You Won')
+        } else {
+          compscore++;
+          console.log("u lose");
+          msg.innerText = `You Lost. ${compChoice} beats your ${userChoice}`;
+          msg.style.backgroundColor = "red";
+          msg.style.color = "white";
+          cmpscore.innerText = compscore;
+        }
+      };
+
+      const genChoice = () => {
+        const options = ["rock", "paper", "scissors"];
+
+        const randidx = Math.floor(Math.random() * 3);
+        return options[randidx];
+        // console.log();
+      };
+      const playGame = (userChoice) => {
+        console.log(userChoice);
+        const compChoice = genChoice();
+        console.log(compChoice);
+        if (userChoice === compChoice) {
+          draw();
+        } else {
+          let userwin = true;
+          if (userChoice === "rock") {
+            userwin = compChoice === "paper" ? false : true;
+          } else if (userChoice === "paper") {
+            userwin = compChoice === "scissors" ? false : true;
+          } else {
+            userwin = compChoice === "rock" ? false : true;
+          }
+          showwin(userwin, userChoice, compChoice);
+        }
+        // console.log(userwin);
+      };
+
+      choices.forEach((choice) => {
+        let userChoice = choice.getAttribute("id");
+
+        choice.addEventListener("click", () => {
+          playGame(userChoice);
+        });
+      });
+    </script>
+  </body>
+</html>
